@@ -8,7 +8,6 @@ namespace NETCore.Base
 {
     public interface IEntity
     {
-        int Id { get; set; }
         bool IsDelete { get; set; }
 
         DateTimeOffset CreateDate { get; set; }

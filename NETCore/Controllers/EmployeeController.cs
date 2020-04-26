@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NETCore.Base;
@@ -11,18 +12,23 @@ using NETCore.ViewModels;
 
 namespace NETCore.Controllers
 {
+  //  [Authorize(AuthenticationSchemes = "Bearer")]
     [Route("api/[controller]")]
     [ApiController]
     public class EmployeeController : BasesController<Employee, EmployeeRepository>
     {
         private readonly EmployeeRepository _repository;
-        public EmployeeController(EmployeeRepository employeeRepository) : base (employeeRepository)
+        
+        
+        //Constructor
+        public EmployeeController(EmployeeRepository employeeRepository) : base(employeeRepository)
         {
             this._repository = employeeRepository;
         }
 
-        // API GET ALL
 
+
+        // API GET ALL
         [HttpGet]
         public async Task<IEnumerable<EmployeeVM>> Get()
         {
@@ -30,28 +36,27 @@ namespace NETCore.Controllers
         }
 
 
-        // API GET BY ID
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<EmployeeVM>> Get(int id)
+        // API GET BY EMAIL
+
+        [HttpGet("{email}")]
+        public async Task<ActionResult<EmployeeVM>> Get(string email)
         {
-            var get = await _repository.GetById(id);
+            var get = await _repository.GetByEmail(email);
             if (get == null)
             {
                 return NotFound();
             }
-            return Ok(get);
+            return Ok(new { data = get });
         }
 
 
+        // API PUT
 
-        // API UPDATE Employee
-
-        [HttpPut("{id}")]
-        public async Task<ActionResult<Employee>> Put(int id, Employee entity)
+        [HttpPut("{email}")]
+        public async Task<ActionResult<Employee>> Put(string email, Employee entity)
         {
-            var put = await _repository.Get(id);
-
+            var put = await _repository.GetByEmail(email);
             if (put == null)
             {
                 return BadRequest();
@@ -94,9 +99,21 @@ namespace NETCore.Controllers
 
             put.UpdateDate = DateTimeOffset.Now;
             await _repository.Put(put);
-            return Ok ("Update Succesfull");
+            return Ok("Update Succesfull");
         }
 
+        //API DELETE
+
+        [HttpDelete("{email}")]
+        public async Task<ActionResult> Delete(string email)
+        {
+            var delete = await _repository.Delete(email);
+            if (delete == null)
+            {
+                return NotFound();
+            }
+            return Ok(delete);
+        }
 
         /*
     [HttpPut("{Id}")]
@@ -124,4 +141,3 @@ namespace NETCore.Controllers
         */
     }
 }
- 

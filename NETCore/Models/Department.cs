@@ -19,27 +19,27 @@ namespace NETCore.Models
         public Nullable<DateTimeOffset> UpdateDate { get; set; }
         public Nullable<DateTimeOffset> DeleteDate { get; set; }
 
-  /*      public Department() { }
+        /*      public Department() { }
 
-        public Department(Department department) //create
-        {
-            this.Name = department.Name;
-            this.CreateDate = DateTimeOffset.Now;
-            this.IsDelete = false;
-        }
+              public Department(Department department) //create
+              {
+                  this.Name = department.Name;
+                  this.CreateDate = DateTimeOffset.Now;
+                  this.IsDelete = false;
+              }
 
-        public void Update(Department department) //update
-        {
-            this.Name = department.Name;
-            this.UpdateDate = DateTimeOffset.Now;
-        }
+              public void Update(Department department) //update
+              {
+                  this.Name = department.Name;
+                  this.UpdateDate = DateTimeOffset.Now;
+              }
 
-        public void Delete() //delete
-        {
-            this.IsDelete = true;
-            this.DeleteDate = DateTimeOffset.Now;
-        }
-        */
+              public void Delete() //delete
+              {
+                  this.IsDelete = true;
+                  this.DeleteDate = DateTimeOffset.Now;
+              }
+              */
 
     }
 }

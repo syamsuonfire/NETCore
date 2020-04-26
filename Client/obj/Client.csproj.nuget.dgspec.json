@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Documents\\Source-Code\\NETCore\\Client\\Client.csproj": {}
+    "D:\\Documents\\Source-Code\\ori\\NETCore\\Client\\Client.csproj": {}
   },
   "projects": {
-    "D:\\Documents\\Source-Code\\NETCore\\Client\\Client.csproj": {
+    "D:\\Documents\\Source-Code\\ori\\NETCore\\Client\\Client.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Documents\\Source-Code\\NETCore\\Client\\Client.csproj",
+        "projectUniqueName": "D:\\Documents\\Source-Code\\ori\\NETCore\\Client\\Client.csproj",
         "projectName": "Client",
-        "projectPath": "D:\\Documents\\Source-Code\\NETCore\\Client\\Client.csproj",
+        "projectPath": "D:\\Documents\\Source-Code\\ori\\NETCore\\Client\\Client.csproj",
         "packagesPath": "C:\\Users\\Syamsu Rijal Efendi\\.nuget\\packages\\",
-        "outputPath": "D:\\Documents\\Source-Code\\NETCore\\Client\\obj\\",
+        "outputPath": "D:\\Documents\\Source-Code\\ori\\NETCore\\Client\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Syamsu Rijal Efendi\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -27,8 +27,8 @@
         "frameworks": {
           "netcoreapp2.1": {
             "projectReferences": {
-              "D:\\Documents\\Source-Code\\NETCore\\NETCore\\NETCore.csproj": {
-                "projectPath": "D:\\Documents\\Source-Code\\NETCore\\NETCore\\NETCore.csproj"
+              "D:\\Documents\\Source-Code\\ori\\NETCore\\NETCore\\NETCore.csproj": {
+                "projectPath": "D:\\Documents\\Source-Code\\ori\\NETCore\\NETCore\\NETCore.csproj"
               }
             }
           }
@@ -48,10 +48,18 @@
               "version": "[2.1.1, )",
               "autoReferenced": true
             },
+            "Microsoft.AspNetCore.Authentication.JwtBearer": {
+              "target": "Package",
+              "version": "[2.1.2, )"
+            },
             "Microsoft.AspNetCore.Razor.Design": {
               "suppressParent": "All",
               "target": "Package",
               "version": "[2.1.2, )"
+            },
+            "Microsoft.AspNetCore.Session": {
+              "target": "Package",
+              "version": "[2.1.1, )"
             },
             "Microsoft.NETCore.App": {
               "suppressParent": "All",
@@ -62,6 +70,10 @@
             "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
               "target": "Package",
               "version": "[2.1.10, )"
+            },
+            "System.IdentityModel.Tokens.Jwt": {
+              "target": "Package",
+              "version": "[6.5.0, )"
             }
           },
           "imports": [
@@ -78,14 +90,14 @@
         }
       }
     },
-    "D:\\Documents\\Source-Code\\NETCore\\NETCore\\NETCore.csproj": {
+    "D:\\Documents\\Source-Code\\ori\\NETCore\\NETCore\\NETCore.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Documents\\Source-Code\\NETCore\\NETCore\\NETCore.csproj",
+        "projectUniqueName": "D:\\Documents\\Source-Code\\ori\\NETCore\\NETCore\\NETCore.csproj",
         "projectName": "NETCore",
-        "projectPath": "D:\\Documents\\Source-Code\\NETCore\\NETCore\\NETCore.csproj",
+        "projectPath": "D:\\Documents\\Source-Code\\ori\\NETCore\\NETCore\\NETCore.csproj",
         "packagesPath": "C:\\Users\\Syamsu Rijal Efendi\\.nuget\\packages\\",
-        "outputPath": "D:\\Documents\\Source-Code\\NETCore\\NETCore\\obj\\",
+        "outputPath": "D:\\Documents\\Source-Code\\ori\\NETCore\\NETCore\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Syamsu Rijal Efendi\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -122,6 +134,10 @@
               "version": "[2.1.1, )",
               "autoReferenced": true
             },
+            "Microsoft.AspNetCore.Authentication.JwtBearer": {
+              "target": "Package",
+              "version": "[2.1.2, )"
+            },
             "Microsoft.AspNetCore.Razor.Design": {
               "suppressParent": "All",
               "target": "Package",
@@ -140,6 +156,10 @@
             "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
               "target": "Package",
               "version": "[2.1.10, )"
+            },
+            "System.IdentityModel.Tokens.Jwt": {
+              "target": "Package",
+              "version": "[6.5.0, )"
             }
           },
           "imports": [

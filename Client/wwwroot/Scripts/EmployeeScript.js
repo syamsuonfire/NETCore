@@ -1,7 +1,7 @@
 ﻿var dateNow = new Date();
 var Departments = [];
 $(document).ready(function () {
-$('#Employee').DataTable({ //Nama table pada index
+    $('#Employee').DataTable({ //Nama table pada index
         "ajax": {
             url: "/Employee/LoadEmployee", //Nama controller/fungsi pada index controller
             type: "GET",
@@ -45,7 +45,8 @@ $('#Employee').DataTable({ //Nama table pada index
             },
             {
                 data: null, render: function (data, type, row) {
-                    return " <td><button type='button' class='btn btn-warning' id='Update' onclick=$('#EditBtn').show();GetById('" + row.id + "');>Edit</button> <button type='button' class='btn btn-danger' id='Delete' onclick=Delete('" + row.id + "');>Delete</button ></td >";
+                    debugger;
+                    return " <td><button type='button' class='btn btn-warning' Id='Update' onclick=$('#EditBtn').show();GetById('" + row.email + "');>Edit</button> <button type='button' class='btn btn-danger' Id='Delete' onclick=Delete('" + row.email + "');>Delete</button ></td >";
                 }
             },
         ]
@@ -59,93 +60,101 @@ $('#Employee').DataTable({ //Nama table pada index
 });
 
 
-function Delete(Id) {
+function Delete(Email) {
+    debugger;
     Swal.fire({
-        title: "Do you want to delete it?",
-        text: "You won't be able to restore this!",
+        title: "Are you sure ?",
+        text: "You won't be able to Revert this!",
         showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes, delete it!'
+        confirmButtonText: "Yes, Delete it!"
     }).then((result) => {
         if (result.value) {
             debugger;
             $.ajax({
-                url: "Employee/Delete/",
-                data: { Id: Id }
+                url: "/Employee/Delete/",
+                data: { Email: Email }
             }).then((result) => {
+                debugger;
                 if (result.statusCode == 200) {
                     Swal.fire({
+                        icon: 'success',
                         position: 'center',
-                        type: 'success',
-                        title: 'Employee Deleted Succesfully'
-                    }).then((result) => {
-                        if (result.value) {
-                            $('#Employee').DataTable().ajax.reload();
-                        }
+                        title: 'Delete Successfully',
+                        timer: 5000
+                    }).then(function () {
+                       $('#Employee').DataTable().ajax.reload();
+                        ClearScreen();
                     });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Failed to Delete',
+                    })
                 }
-                else {
-                    Swal.fire('Error', 'Failed to Delete Employee', 'error');
-                    ShowModal();
-                }
-            });
+            })
         }
     });
 }
 
 
+
 function Save() {
-        var Employee = new Object(); // new object employee
-        Employee.FirstName = $('#FirstName').val();
-        Employee.LastName = $('#LastName').val();
-        Employee.Email = $('#Email').val();
-        Employee.BirthDate = $('#BirthDate').val();
-        Employee.PhoneNumber = $('#PhoneNumber').val();
-        Employee.Address = $('#Address').val();
-        Employee.Department_Id = $('#DepartmentOption').val();
+    var Employee = new Object(); // new object employee
+    debugger;
+    Employee.FirstName = $('FirstName').val();
+    Employee.LastName = $('#LastName').val();
+    Employee.Email = $('#Email').val();
+    Employee.Password = $('#Password').val();
+    Employee.BirthDate = $('#BirthDate').val();
+    Employee.PhoneNumber = $('#PhoneNumber').val();
+    Employee.Address = $('#Address').val();
+    Employee.Department_Id = $('#DepartmentOption').val();
 
-        $.ajax({
-            type: 'POST',
-            url: '/Employee/InsertOrUpdate/',
-            data: Employee
-        }).then((result) => {
-            if (result.statusCode == 200) {
-                Swal.fire({
-                    position: 'center',
-                    type: 'success',
-                    title: 'Employee Added Succesfully'
-                }).then((result) => {
-                    if (result.value) {
-                        $('#Employee').DataTable().ajax.reload();
-                    }
-                });
-            }
-            else {
-                Swal.fire('Error', 'Failed to Add Employee', 'error');
-                ClearScreen();
-            }
-        })
-
-
-    }
-
-function GetById(Id) {
     $.ajax({
-        url: "/Employee/GetById/" + Id,
+        type: 'POST',
+        url: '/Employee/Insert/',
+        data: Employee
+    }).then((result) => {
+        if (result.statusCode == 200) {
+            Swal.fire({
+                position: 'center',
+                type: 'success',
+                title: 'Employee Added Succesfully'
+            }).then((result) => {
+                if (result.value) {
+                    $('#Employee').DataTable().ajax.reload();
+                }
+            });
+        }
+        else {
+            Swal.fire('Error', 'Failed to Add Employee', 'error');
+            ClearScreen();
+        }
+    })
+
+
+}
+debugger;
+function GetById(Email) {
+    $.ajax({
+        url: "/Employee/GetByEmail/" + Email,
         type: "GET",
         contentType: "application/json;charset=utf-8",
         dataType: "json",
+        data: { Email: Email },
         async: false,
         success: function (result) {
-            $('#Id').val(result[0].id);
-            $('#FirstName').val(result[0].firstName);
-            $('#LastName').val(result[0].lastName);
-            $('#Email').val(result[0].email);
-            $('#BirthDate').val(result[0].birthDate);
-            $('#PhoneNumber').val(result[0].phoneNumber);
-            $('#Address').val(result[0].address);
-            $('#DepartmentOption').val(result[0].department_Id);
+            debugger;
+            const obj = JSON.parse(result);
+            const obj2 = JSON.parse(obj);
+            $('#email').val(obj2.data.email);
+            $('#firstname').val(obj2.data.firstName);
+            $('#lastname').val(obj2.data.lastName);
+            $('#birthdate').val(moment(obj2.data.birthDate).format('YYYY-MM-DD'));
+            $('#address').val(obj2.data.address);
+            $('#phone').val(obj2.data.phoneNumber);
+            $('#departmentoption').val(obj2.data.department_Id);
             $('#myModal').modal('show');
             $('#UpdateBtn').show();
             $('#SaveBtn').hide();
@@ -160,19 +169,18 @@ function GetById(Id) {
 }
 
 function Edit() {
-    //debugger;
+    debugger;
     var Employee = new Object();
-    Employee.Id = $('#Id').val();
+    Employee.Email = $('#Email').val();
     Employee.FirstName = $('#FirstName').val();
     Employee.LastName = $('#LastName').val();
-    Employee.Email = $('#Email').val();
     Employee.BirthDate = $('#BirthDate').val();
     Employee.PhoneNumber = $('#PhoneNumber').val();
     Employee.Address = $('#Address').val();
     Employee.Department_Id = $('#DepartmentOption').val();
     $.ajax({
         type: 'POST',
-        url: 'Employee/InsertOrUpdate',
+        url: 'Employee/Update',
         data: Employee
     }).then((result) => {
         if (result.statusCode == 200) {

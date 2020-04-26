@@ -27,7 +27,7 @@ namespace Client.Controllers
         public JsonResult LoadEmployee()
         {
             IEnumerable<EmployeeVM> employee = null;
-            var responseTask = client.GetAsync("Employee/"); // Akses data dari Employee API
+            var responseTask = client.GetAsync("Employee");
             var result = responseTask.Result;
             if (result.IsSuccessStatusCode)
             {
@@ -42,52 +42,57 @@ namespace Client.Controllers
             return Json(employee);
         }
 
-        // Create/Update Employee
+        // Update Employee
 
-        public JsonResult InsertOrUpdate(EmployeeVM employee)
+        public JsonResult Update(EmployeeVM employeeVM)
         {
-            var myContent = JsonConvert.SerializeObject(employee);
+            var myContent = JsonConvert.SerializeObject(employeeVM);
             var buffer = System.Text.Encoding.UTF8.GetBytes(myContent);
             var byteContent = new ByteArrayContent(buffer);
             byteContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-            if (employee.Id == 0) //insert
-            {
-                var result = client.PostAsync("Employee/", byteContent).Result;
-                return Json(result);
-            }
-            else //update
-            {
-                var result = client.PutAsync("Employee/" + employee.Id, byteContent).Result;
-                return Json(result);
-            }
+
+            var result = client.PutAsync("Employee/" + employeeVM.Email, byteContent).Result;
+            return Json(result);
+        }
+
+        // Create Employee
+
+        public JsonResult Insert(EmployeeVM employeeVM)
+        {
+            var myContent = JsonConvert.SerializeObject(employeeVM);
+            var buffer = System.Text.Encoding.UTF8.GetBytes(myContent);
+            var byteContent = new ByteArrayContent(buffer);
+            byteContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+
+            var result = client.PostAsync("Account/Register/", byteContent).Result;
+            return Json(result);
         }
 
         // GETBYID Employee
-        public JsonResult GetById(int Id)
+        public JsonResult GetByEmail(string Email)
         {
-            IEnumerable<EmployeeVM> employee = null;
-            var responseTask = client.GetAsync("Employee/" + Id);
+            object data = null;
+            var responseTask = client.GetAsync("Employee/" + Email);
             responseTask.Wait();
             var result = responseTask.Result;
             if (result.IsSuccessStatusCode)
             {
-                var readTask = result.Content.ReadAsAsync<IList<EmployeeVM>>();
-                readTask.Wait();
-                employee = readTask.Result;
+                var json = JsonConvert.DeserializeObject(result.Content.ReadAsStringAsync().Result).ToString();
+                data = JsonConvert.SerializeObject(json);
             }
             else
             {
-                ModelState.AddModelError(string.Empty, "Server Error");
+                ModelState.AddModelError(string.Empty, "Sorry Server Error, Try Again");
             }
-            return Json(employee);
+            return Json(data);
         }
 
 
 
         // DELETE: Employee
-        public JsonResult Delete(int Id)
+        public JsonResult Delete(string Email)
         {
-            var result = client.DeleteAsync("Employee/" + Id).Result;
+            var result = client.DeleteAsync("Employee/" + Email).Result;
             return Json(result);
         }
     }

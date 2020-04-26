@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NETCore.Models;
 using NETCore.ViewModels;
@@ -13,20 +14,34 @@ namespace Client.Controllers
 {
     public class DepartmentController : Controller
     {
-        readonly HttpClient client = new HttpClient
-        {
-            BaseAddress = new Uri("https://localhost:44343/api/")
-        };
+    //    readonly HttpClient client = new HttpClient();
+
 
 
         // Get Department
         public IActionResult Index()
         {
-            return View(); // Menampilkan data berdasarkan fungsi loaddepartment
+            var client = new HttpClient
+            {
+                BaseAddress = new Uri("https://localhost:44343/api/")
+            };
+            // var role = HttpContext.Session.GetString("Role");
+          //  if (role == "Admin")
+            { 
+                return View(); // Menampilkan data berdasarkan fungsi loaddepartment
+            }
+        //   return RedirectToAction("User Denied");
         }
 
         public JsonResult LoadDepartment()
         {
+            var client = new HttpClient
+            {
+                BaseAddress = new Uri("https://localhost:44343/api/")
+            };
+
+        //    client.DefaultRequestHeaders.Add("Authorization", HttpContext.Session.GetString("Token"));
+       //     client.DefaultRequestHeaders.Add("Authorization", HttpContext.Session.GetString("Token"));
             DepartmentJson departmentVM = null;
             var responseTask = client.GetAsync("Department/"); // Akses data dari Department API
             responseTask.Wait(); // Wait for the task to complete execution
@@ -47,6 +62,12 @@ namespace Client.Controllers
 
         public JsonResult InsertOrUpdate(Department department)
         {
+            var client = new HttpClient
+            {
+                BaseAddress = new Uri("https://localhost:44343/api/")
+            };
+
+         //   client.DefaultRequestHeaders.Add("Authorization", HttpContext.Session.GetString("Token"));
             var myContent = JsonConvert.SerializeObject(department);
             var buffer = System.Text.Encoding.UTF8.GetBytes(myContent);
             var byteContent = new ByteArrayContent(buffer);
@@ -68,6 +89,12 @@ namespace Client.Controllers
 
         public JsonResult Delete(int id)
         {
+            var client = new HttpClient
+            {
+                BaseAddress = new Uri("https://localhost:44343/api/")
+            };
+
+          //  client.DefaultRequestHeaders.Add("Authorization", HttpContext.Session.GetString("Token"));
             var result = client.DeleteAsync("Department/" + id).Result;
             return Json(result);
         }
@@ -77,7 +104,13 @@ namespace Client.Controllers
 
           public JsonResult GetById(int Id)
               {
-                  DepartmentVM departmentVM = null;
+            var client = new HttpClient
+            {
+                BaseAddress = new Uri("https://localhost:44343/api/")
+            };
+
+        //    client.DefaultRequestHeaders.Add("Authorization", HttpContext.Session.GetString("Token"));
+            DepartmentVM departmentVM = null;
                   var responseTask = client.GetAsync("Department/" + Id);
                   responseTask.Wait();
                   var result = responseTask.Result;
